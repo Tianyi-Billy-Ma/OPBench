@@ -42,7 +42,7 @@ We recommend using [uv](https://github.com/astral-sh/uv) for fast, reliable Pyth
 
 ```bash
 # Clone the repository
-git clone https://github.com/Tianyi-Billy-Ma/OPBench.git
+git clone <repository-url>
 cd OPBench
 
 # Create and sync environment with uv
@@ -186,19 +186,6 @@ outputs/<run_name>/
 │   ├── run_results.json
 │   └── run_results.md
 └── logs/              # Training logs
-```
-
-## Citation
-
-If you use OPBench in your research, please cite:
-
-```bibtex
-@misc{opbench2025,
-  title={OPBench: A Graph Benchmark to Combat the Opioid Crisis},
-  author={Ma, Tianyi},
-  year={2025},
-  url={https://github.com/Tianyi-Billy-Ma/OPBench}
-}
 ```
 
 ## License

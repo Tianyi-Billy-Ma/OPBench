@@ -9,9 +9,7 @@ description = "OPBench: A Graph Benchmark to Combat the Opioid Crisis"
 readme = "README.md"
 requires-python = ">=3.11"
 license = {text = "MIT"}
-authors = [
-    {name = "Tianyi Ma"},
-]
+authors = []
 keywords = [
     "graph neural networks",
     "opioid crisis",
@@ -55,8 +53,8 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Tianyi-Billy-Ma/OPBench"
-Repository = "https://github.com/Tianyi-Billy-Ma/OPBench"
+Homepage = ""
+Repository = ""
 
 [tool.setuptools.packages.find]
 include = ["src*"]
