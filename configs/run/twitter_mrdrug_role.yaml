@@ -1,0 +1,18 @@
+mode: run
+data:
+  dataset: twitter_mrdrug_role
+  train_prop: 0.6
+  val_prop: 0.1
+  test_prop: 0.3
+model:
+  model_name: gcn
+  hidden_dim: 128
+  output_dim: 128
+  num_layers: 2
+  dropout: 0.5
+train:
+  epochs: 300
+  lr: 0.01
+  weight_decay: 5e-4
+  patience: 50
+  device: auto

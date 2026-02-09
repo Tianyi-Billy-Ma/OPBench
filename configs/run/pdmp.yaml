@@ -1,0 +1,20 @@
+mode: run
+data:
+  dataset: pdmp
+  train_prop: 0.5
+  val_prop: 0.1
+  test_prop: 0.4
+model:
+  model_name: gcn
+  hidden_dim: 256
+  output_dim: 256
+  num_layers: 2
+  dropout: 0.3
+  num_heads: 4
+  normalization: ln
+train:
+  epochs: 500
+  lr: 0.001
+  weight_decay: 5e-4
+  patience: 50
+  device: auto

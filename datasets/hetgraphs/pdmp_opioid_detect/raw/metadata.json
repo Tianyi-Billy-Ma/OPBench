@@ -1,0 +1,23 @@
+{
+  "num_patients": 30574,
+  "num_prescribers": 21159,
+  "num_pharmacies": 2517,
+  "num_drugs": 68,
+  "num_edges": {
+    "patient_take_drug": 76172,
+    "patient_pickup_at_pharmacy": 57700,
+    "patient_visit_prescriber": 86055,
+    "prescriber_prescribe_drug": 66544,
+    "pharmacy_dispense_drug": 34966
+  },
+  "label_distribution": {
+    "overdose": 15287,
+    "non_overdose": 15287
+  },
+  "feature_dim": 768,
+  "encoding_model": "all-mpnet-base-v2",
+  "sampling": {
+    "balance_ratio": 1.0,
+    "seed": 42
+  }
+}

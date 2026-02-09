@@ -1,0 +1,45 @@
+mode: sweep
+data:
+  dataset: pdmp
+  train_prop: 0.5
+model:
+  model_name: gcn
+  hidden_dim: 128
+  output_dim: 128
+  num_layers: 2
+  dropout: 0.5
+  num_heads: 4
+train:
+  epochs: 500
+  lr: 0.01
+  weight_decay: 5e-4
+  patience: 50
+  num_runs: 5
+  device: auto
+  sweep_type: coordinate
+log:
+  run_name: "{mode}_{model.model_name}_{data.dataset}_{data.train_prop}_{timestamp}"
+  report_to: "none"
+sweep:
+  sweep_metric: "val_f1_macro_mean"
+  higher_is_better: true
+  parameters:
+    train.lr:
+      - 0.1
+      - 0.01
+      - 0.001
+      - 0.0001
+    model.hidden_dim:
+      - 64
+      - 128
+      - 256
+      - 512
+    model.dropout:
+      - 0.0
+      - 0.3
+      - 0.5
+    train.weight_decay:
+      - 0
+      - 0.00001
+      - 0.0001
+      - 0.0005
