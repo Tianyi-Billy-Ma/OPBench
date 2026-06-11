@@ -9,9 +9,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.utils import scatter
 
-from ..base import BaseBackbone
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
+from ..base import BaseBackbone
 
 
 class HNHNConv(nn.Module):
@@ -256,15 +257,3 @@ class HNHN(BaseBackbone):
                 x = F.dropout(x, p=self.dropout, training=self.training)
 
         return x
-
-    def forward(self, batch) -> dict:
-        """Forward pass.
-
-        Args:
-            batch: PyG Data object with hypergraph structure.
-
-        Returns:
-            Dictionary with 'embeddings' key containing node embeddings.
-        """
-        h = self.get_embedding(batch)
-        return {"embeddings": h}

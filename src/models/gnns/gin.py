@@ -1,10 +1,11 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import GINConv
-from ..base import BaseBackbone
+
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
+from ..base import BaseBackbone
 
 
 @ModelRegistry.register("gin")
@@ -64,10 +65,3 @@ class GIN(BaseBackbone):
         x = self.convs[-1](x, edge_index)
         x = self.norms[-1](x)
         return x
-
-    def forward(self, batch) -> dict:
-        h = self.get_embedding(batch)
-        return {"embeddings": h}
-
-    def compute_loss(self, batch, outputs: dict) -> dict:
-        return {"loss": torch.tensor(0.0, requires_grad=True)}

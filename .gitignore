@@ -205,3 +205,13 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# OPBench project-specific
+# oh-my-claudecode working state (local agent tooling)
+.omc/
+# experiment run artifacts
+outputs/
+# private raw inputs (e.g. PDMP source CSVs) — never released
+datasets/raw/
+# PyG InMemoryDataset processed caches (regenerable)
+datasets/**/processed/

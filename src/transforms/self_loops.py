@@ -116,13 +116,11 @@ class AddHypergraphSelfLoops(BaseTransform):
             max_he_idx + 1, max_he_idx + 1 + num_nodes, dtype=torch.long
         )
 
-        new_edges = torch.stack(
-            [
-                torch.cat([self_loop_nodes, self_loop_hes]),
-                torch.cat([self_loop_hes, self_loop_nodes]),
-            ],
-            dim=0,
-        )
+        # V->E only: give each node its own singleton hyperedge. This runs after
+        # ExtractV2E, so edge_index must stay node->hyperedge (src < num_nodes);
+        # adding the reverse direction here breaks that invariant for ConstructH
+        # and the downstream hypergraph transforms/models.
+        new_edges = torch.stack([self_loop_nodes, self_loop_hes], dim=0)
 
         if hasattr(data, "edge_index") and data.edge_index.numel() > 0:
             data.edge_index = torch.cat([data.edge_index, new_edges], dim=1)

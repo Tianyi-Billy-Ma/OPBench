@@ -1,10 +1,10 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch_geometric.nn import HGTConv, HeteroLayerNorm, Linear
+from torch_geometric.nn import HGTConv, Linear
 
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
 from ..base import BaseBackbone
 
 
@@ -61,7 +61,10 @@ class HGT(BaseBackbone):
         self.norms = nn.ModuleList()
         for _ in range(num_layers - 1):
             if normalization == "ln":
-                self.norms.append(HeteroLayerNorm(hidden_dim, self.node_types))
+                norm_dict = nn.ModuleDict()
+                for node_type in self.node_types:
+                    norm_dict[node_type] = nn.LayerNorm(hidden_dim)
+                self.norms.append(norm_dict)
             elif normalization == "bn":
                 norm_dict = nn.ModuleDict()
                 for node_type in self.node_types:
@@ -95,7 +98,7 @@ class HGT(BaseBackbone):
             if isinstance(norm, (nn.LayerNorm, nn.BatchNorm1d)):
                 norm.reset_parameters()
 
-    def forward(self, batch) -> dict:
+    def get_embedding(self, batch):
         x_dict = batch.x_dict
         edge_index_dict = batch.edge_index_dict
 
@@ -124,7 +127,4 @@ class HGT(BaseBackbone):
                     for key, x in x_dict.items()
                 }
 
-        return {"embeddings": x_dict}
-
-    def compute_loss(self, batch, outputs: dict) -> dict:
-        return {"loss": torch.tensor(0.0, requires_grad=True)}
+        return x_dict

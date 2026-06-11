@@ -4,17 +4,16 @@ from typing import Any
 
 from torch_geometric.transforms import BaseTransform, Compose
 
-from src.transforms.self_loops import AddSelfLoop, AddHypergraphSelfLoops
 from src.transforms.het2homo import HetToHomo
 from src.transforms.hypergraph import (
-    ExtractV2E,
+    BuildHyperedgeDict,
     ConstructH,
+    ConstructNorm,
+    ExtractV2E,
     GenerateG,
     GenerateNormHNHN,
-    ConstructNorm,
-    BuildHyperedgeDict,
 )
-
+from src.transforms.self_loops import AddHypergraphSelfLoops, AddSelfLoop
 
 HYPERGRAPH_MODELS = frozenset(
     {

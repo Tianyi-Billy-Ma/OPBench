@@ -1,10 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from .han import HANEncoder
-from ..base import BaseBackbone
+
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
+from ..base import BaseBackbone
+from .han import HANEncoder
 
 
 def sce_loss(x, y, alpha=3):

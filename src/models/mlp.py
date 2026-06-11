@@ -4,9 +4,10 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from .base import BaseBackbone
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
+from .base import BaseBackbone
 
 
 class MLP(BaseBackbone):
@@ -103,12 +104,8 @@ class MLPBackbone(BaseBackbone):
             activation=activation,
         )
 
-    def forward(self, batch) -> dict:
-        h = self.mlp(batch.x)
-        return {"embeddings": h}
-
-    def compute_loss(self, batch, outputs: dict) -> dict:
-        return {"loss": torch.tensor(0.0, requires_grad=True)}
+    def get_embedding(self, batch):
+        return self.mlp(batch.x)
 
     def reset_parameters(self) -> None:
         self.mlp.reset_parameters()

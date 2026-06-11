@@ -1,8 +1,6 @@
 from typing import List, Literal
 
-import wandb
 from litlogger import LightningLogger
-from pytorch_lightning.loggers import WandbLogger
 
 from src.hparams import FullArguments
 
@@ -16,7 +14,11 @@ def parse_report_to(report_to: str | list[str]) -> list[str]:
 
 
 def cleanup_loggers() -> None:
-    """Clean up any existing logger instances before creating new ones."""
+    """Clean up any existing Weights & Biases run before creating new loggers."""
+    try:
+        import wandb
+    except ImportError:
+        return
     if wandb.run is not None:
         wandb.finish()
 
@@ -51,6 +53,13 @@ def setup_loggers(
             logger._version = ""
             loggers.append(logger)
         elif name == "wandb":
+            try:
+                from pytorch_lightning.loggers import WandbLogger
+            except ImportError as e:
+                raise ImportError(
+                    "Weights & Biases logging requires the 'wandb' extra. "
+                    "Install it with: pip install -e '.[wandb]'"
+                ) from e
             logger = WandbLogger(
                 project=config.log.project,
                 entity=config.log.entity,

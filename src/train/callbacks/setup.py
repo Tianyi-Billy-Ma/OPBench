@@ -2,7 +2,7 @@ from pathlib import Path
 from typing import Literal
 
 import torch
-from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 from src.hparams import FullArguments
 

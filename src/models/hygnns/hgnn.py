@@ -1,9 +1,11 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from ..base import BaseBackbone
+
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
+from ..base import BaseBackbone
 
 
 class HGNNConv(nn.Module):
@@ -106,7 +108,3 @@ class HGNN(BaseBackbone):
 
         x = self.convs[-1](x, G)
         return x
-
-    def forward(self, batch) -> dict:
-        h = self.get_embedding(batch)
-        return {"embeddings": h}

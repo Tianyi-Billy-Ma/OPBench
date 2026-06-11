@@ -1,8 +1,9 @@
 """Base configuration class with common methods."""
 
-from dataclasses import dataclass, fields, asdict
+from dataclasses import asdict, dataclass, fields
 from pathlib import Path
 from typing import TypeVar
+
 import yaml
 
 T = TypeVar("T", bound="BaseConfig")

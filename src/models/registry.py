@@ -1,6 +1,7 @@
 from typing import Type
-from src.models.base import BaseBackbone
+
 from src.hparams import FullArguments
+from src.models.base import BaseBackbone
 
 
 class ModelRegistry:

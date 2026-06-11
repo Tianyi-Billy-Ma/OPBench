@@ -2,9 +2,10 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.utils import scatter, softmax
+
 from src.hparams import FullArguments
-from src.models.registry import ModelRegistry
 from src.models.base import BaseBackbone
+from src.models.registry import ModelRegistry
 
 
 class HCHAConv(nn.Module):
@@ -214,7 +215,3 @@ class HCHA(BaseBackbone):
                     x = F.dropout(x, p=self.dropout, training=self.training)
 
         return x
-
-    def forward(self, batch) -> dict:
-        h = self.get_embedding(batch)
-        return {"embeddings": h}

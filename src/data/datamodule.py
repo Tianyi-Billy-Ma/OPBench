@@ -3,12 +3,11 @@ from pathlib import Path
 
 import pytorch_lightning as pl
 import torch
-from torch_geometric.data import Data, HeteroData
+from torch_geometric.data import HeteroData
 from torch_geometric.loader import DataLoader
 
 from src.data.datasets import GraphDataset, HypergraphDataset
 from src.transforms import get_pre_transform
-
 
 # OPBench Dataset Configuration
 # This benchmark includes 5 datasets for opioid crisis research:

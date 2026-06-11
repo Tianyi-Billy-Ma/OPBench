@@ -1,5 +1,5 @@
-import torch
 import numpy as np
+import torch
 from torch_geometric.data import Data
 from torch_geometric.transforms import BaseTransform
 from torch_geometric.utils import scatter

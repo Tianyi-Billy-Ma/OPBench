@@ -1,10 +1,9 @@
-from .gnns import GCN, GAT, GIN, GraphSAGE
-from .hetgnns import HAN, HANEncoder, HGMAE, HGT, RGCN
-from .hygnns import HGNN, HyperGCN, AllSet
-from .models import NodeModel, HetModel, PTModel
+from .gnns import GAT, GCN, GIN, GraphSAGE
+from .hetgnns import HAN, HGMAE, HGT, RGCN, HANEncoder
+from .hygnns import HGNN, AllSet, HyperGCN
 from .mlp import MLP, MLPBackbone
+from .models import HetModel, NodeModel, PTModel
 from .registry import ModelRegistry
-
 
 __all__ = [
     "GCN",

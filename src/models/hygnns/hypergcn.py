@@ -4,8 +4,8 @@ import torch.nn.functional as F
 from torch_geometric.utils import scatter
 
 from src.hparams import FullArguments
-from src.models.registry import ModelRegistry
 from src.models.base import BaseBackbone
+from src.models.registry import ModelRegistry
 
 
 class HyperGCNConv(nn.Module):
@@ -178,7 +178,7 @@ class HyperGCN(BaseBackbone):
             He_dict[normalized_id].append(node)
         return He_dict
 
-    def forward(self, batch) -> dict:
+    def get_embedding(self, batch):
         x = batch.x
         num_nodes = x.size(0)
 
@@ -194,4 +194,4 @@ class HyperGCN(BaseBackbone):
             x = F.relu(x)
             x = F.dropout(x, p=self.dropout, training=self.training)
 
-        return {"embeddings": x}
+        return x

@@ -1,16 +1,16 @@
 import logging
 import re
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
-from src.hparams.parser import FullArguments
 from src.hparams.configs import (
     DataConfig,
-    ModelConfig,
-    TrainConfig,
     LogConfig,
+    ModelConfig,
     SweepConfig,
+    TrainConfig,
 )
+from src.hparams.parser import FullArguments
 from src.utils import parse_report_to
 
 logger = logging.getLogger(__name__)

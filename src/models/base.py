@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Any, Literal
+from typing import Literal
+
+import torch
 import torch.nn as nn
 
 from src.metrics import Evaluator
@@ -9,17 +11,30 @@ class BaseBackbone(ABC, nn.Module):
     """Abstract base class for all backbone models.
 
     Provides common utilities for normalization and activation that can be
-    used by all GNN/HetGNN implementations.
+    used by all GNN/HetGNN implementations. Subclasses implement
+    ``get_embedding`` (and ``reset_parameters``); the default ``forward`` wraps
+    the embeddings in an output dict.
     """
 
-    @abstractmethod
-    def forward(self, *args, **kwargs) -> Any: ...
+    def forward(self, batch) -> dict:
+        """Default forward pass: wrap node embeddings in an output dict.
+
+        Backbones with custom outputs (e.g. masked autoencoders) override this.
+        """
+        return {"embeddings": self.get_embedding(batch)}
+
+    def get_embedding(self, batch):
+        raise NotImplementedError(
+            f"{self.__class__.__name__} must implement get_embedding() "
+            "or override forward()."
+        )
 
     def compute_loss(self, batch, outputs: dict) -> dict:
-        raise NotImplementedError(
-            f"{self.__class__.__name__} does not support pretraining. "
-            "Use PTModel only with backbones that implement compute_loss."
-        )
+        """Default: no self-supervised objective (zero loss).
+
+        Backbones with a pretraining objective (e.g. HGMAE) override this.
+        """
+        return {"loss": torch.tensor(0.0, requires_grad=True)}
 
     @abstractmethod
     def reset_parameters(self) -> None:

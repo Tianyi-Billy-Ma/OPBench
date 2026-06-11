@@ -1,8 +1,8 @@
+
 import torch
 import torch.nn.functional as F
-from typing import Literal
 
-from .functional import accuracy, f1_micro, f1_macro, auc_score
+from .functional import accuracy, auc_score, f1_macro, f1_micro
 
 
 class Evaluator:

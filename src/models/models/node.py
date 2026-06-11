@@ -1,6 +1,7 @@
+from typing import Literal
+
 import torch.nn.functional as F
 from torch_geometric.data import HeteroData
-from typing import Literal
 
 from ..base import BaseBackbone
 from ..mlp import MLP

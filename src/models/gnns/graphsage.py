@@ -1,10 +1,11 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import SAGEConv
-from ..base import BaseBackbone
+
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
+from ..base import BaseBackbone
 
 
 @ModelRegistry.register("graphsage")
@@ -61,10 +62,3 @@ class GraphSAGE(BaseBackbone):
 
         x = self.convs[-1](x, edge_index)
         return x
-
-    def forward(self, batch) -> dict:
-        h = self.get_embedding(batch)
-        return {"embeddings": h}
-
-    def compute_loss(self, batch, outputs: dict) -> dict:
-        return {"loss": torch.tensor(0.0, requires_grad=True)}

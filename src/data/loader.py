@@ -1,17 +1,15 @@
-from collections.abc import Callable
-from pathlib import Path
 import logging
 import pickle
-import os
+from collections.abc import Callable
+from pathlib import Path
 
 import numpy as np
 import torch
 from scipy import sparse as sp
+from scipy.sparse import load_npz
 from torch_geometric.data import Data, HeteroData
 
-from scipy.sparse import load_npz
-
-from src.data.metapaths import load_metapaths, add_precomputed_metapaths
+from src.data.metapaths import add_precomputed_metapaths, load_metapaths
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -352,7 +350,10 @@ def twitter_mrdrug_role_builder(data_dir: Path, **kwargs) -> Data:
             "Run the .mat conversion script first."
         )
 
-    X = np.load(features_path)
+    X = np.load(features_path, allow_pickle=True)
+    if X.dtype == object:
+        # features.npy ships as a 0-d array wrapping a scipy sparse matrix
+        X = X.item().toarray()
     Y = np.load(labels_path)
 
     X = torch.from_numpy(X).float()

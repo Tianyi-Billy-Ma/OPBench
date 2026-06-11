@@ -1,13 +1,15 @@
 import logging
 import warnings
+
 import torch
 from torch_geometric.data import Data, HeteroData
-from .datamodule import HONADataModule
+
+from .datamodule import OPBenchDataModule
 
 logger = logging.getLogger(__name__)
 
 
-def extract_data_info(dm: HONADataModule, config) -> dict:
+def extract_data_info(dm: OPBenchDataModule, config) -> dict:
     """Extract runtime data information for config patching."""
     info = {}
     dataset_name = config.data.dataset.lower()
@@ -24,9 +26,34 @@ def extract_data_info(dm: HONADataModule, config) -> dict:
         info["data.num_classes"] = 2
         info["data.target_node_type"] = "patient"
     elif dataset_name == "nhance":
-        info["data.num_features"] = dm.data["user"].x.shape[1]
         info["data.num_classes"] = 2
-        info["data.target_node_type"] = "user"
+        if isinstance(dm.data, HeteroData):
+            info["data.num_features"] = dm.data["user"].x.shape[1]
+            info["data.target_node_type"] = "user"
+        else:
+            # Homogenized via the het->homo (metapath) pre-transform.
+            info["data.num_features"] = dm.data.x.shape[1]
+            info["data.target_node_type"] = None
+    else:
+        # Homogeneous / hypergraph datasets (e.g. twitter_*): derive shapes
+        # directly from the loaded graph.
+        if isinstance(dm.data, HeteroData):
+            target_node_type = config.data.target_node_type
+            store = (
+                dm.data[target_node_type]
+                if target_node_type
+                else dm.data[dm.data.node_types[0]]
+            )
+            x, y = store.x, store.y
+            info["data.target_node_type"] = target_node_type
+        else:
+            x, y = dm.data.x, dm.data.y
+            info["data.target_node_type"] = None
+        info["data.num_features"] = x.shape[1]
+        # Multi-label targets are stored as a [num_nodes, num_classes] matrix.
+        info["data.num_classes"] = (
+            y.shape[1] if y.dim() > 1 else int(y.max().item()) + 1
+        )
 
     # Extract metadata for heterogeneous GNNs
     if model_name in ("hgmae", "hgt", "han"):

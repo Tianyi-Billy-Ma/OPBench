@@ -1,4 +1,4 @@
-from ..base import BaseModel, BaseBackbone
+from ..base import BaseBackbone, BaseModel
 
 
 class PTModel(BaseModel):

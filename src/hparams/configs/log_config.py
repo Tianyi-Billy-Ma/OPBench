@@ -1,7 +1,8 @@
 """Logging-related configuration."""
 
-from pathlib import Path
 from dataclasses import dataclass, field
+from pathlib import Path
+
 from .base_config import BaseConfig
 
 
@@ -23,7 +24,7 @@ class LogConfig(BaseConfig):
 
     # W&B configuration
     project: str = field(
-        default="hona",
+        default="opbench",
         metadata={"help": "W&B project name"},
     )
     entity: str | None = field(

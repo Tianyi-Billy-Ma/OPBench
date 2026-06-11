@@ -1,14 +1,15 @@
-from typing import Literal, Any, cast
+from typing import Literal, cast
 
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.utils import scatter
 
-from ..base import BaseBackbone
 from src.hparams import FullArguments
-from src.models.registry import ModelRegistry
 from src.models.mlp import MLP
+from src.models.registry import ModelRegistry
+
+from ..base import BaseBackbone
 
 
 class EDHNNConv(nn.Module):
@@ -182,14 +183,7 @@ class EDHNN(BaseBackbone):
             if isinstance(conv, EDHNNConv):
                 conv.reset_parameters()
 
-    def forward(self, *args, **kwargs) -> Any:
-        if args:
-            batch = args[0]
-        else:
-            batch = kwargs.get("batch")
-
-        assert batch is not None, "Forward requires batch"
-
+    def get_embedding(self, batch):
         x = batch.x
         num_nodes = x.size(0)
         edge_index = batch.edge_index
@@ -217,4 +211,4 @@ class EDHNN(BaseBackbone):
                 x = conv(x, vertex, edges, x0)
             x = self.act(x)
 
-        return {"embeddings": x}
+        return x

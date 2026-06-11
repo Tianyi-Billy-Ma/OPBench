@@ -1,10 +1,10 @@
-import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch_geometric.nn import HANConv
 
 from src.hparams import FullArguments
 from src.models.registry import ModelRegistry
+
 from ..base import BaseBackbone
 
 
@@ -172,11 +172,5 @@ class HAN(BaseBackbone):
     def reset_parameters(self) -> None:
         self.encoder.reset_parameters()
 
-    def forward(self, batch) -> dict:
-        x_dict = batch.x_dict
-        edge_index_dict = batch.edge_index_dict
-        z_dict = self.encoder(x_dict, edge_index_dict)
-        return {"embeddings": z_dict}
-
-    def compute_loss(self, batch, outputs: dict) -> dict:
-        return {"loss": torch.tensor(0.0, requires_grad=True)}
+    def get_embedding(self, batch):
+        return self.encoder(batch.x_dict, batch.edge_index_dict)

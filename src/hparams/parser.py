@@ -1,16 +1,16 @@
+import sys
 from dataclasses import dataclass, field
 from pathlib import Path
-import sys
-import yaml
 
+import yaml
 from simple_parsing import ArgumentParser
 
 from .configs import (
     DataConfig,
-    ModelConfig,
-    TrainConfig,
     LogConfig,
+    ModelConfig,
     SweepConfig,
+    TrainConfig,
 )
 
 

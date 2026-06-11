@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass, field
 from typing import Any
+
 from .base_config import BaseConfig
 
 

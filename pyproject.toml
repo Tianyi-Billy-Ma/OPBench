@@ -35,7 +35,6 @@ dependencies = [
     "torch>=2.0.0",
     "pytorch-lightning>=2.0.0",
     "torch-geometric>=2.4.0",
-    "wandb>=0.16.0",
     "omegaconf>=2.3.0",
     "pyyaml>=6.0",
     "seaborn>=0.13.0",
@@ -47,14 +46,17 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+wandb = [
+    "wandb>=0.16.0",
+]
 dev = [
     "pytest>=7.0.0",
     "ruff>=0.1.0",
 ]
 
 [project.urls]
-Homepage = ""
-Repository = ""
+Homepage = "https://github.com/Tianyi-Billy-Ma/OPBench"
+Repository = "https://github.com/Tianyi-Billy-Ma/OPBench"
 
 [tool.setuptools.packages.find]
 include = ["src*"]
@@ -66,5 +68,10 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E", "F", "I", "W"]
 ignore = ["E501"]
+
+[tool.ruff.lint.per-file-ignores]
+# main.py intentionally calls warnings.filterwarnings() and
+# torch.set_float32_matmul_precision() before/between imports.
+"src/main.py" = ["E402"]
 
 [tool.uv]

@@ -1,14 +1,15 @@
+from typing import Literal, Optional
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from typing import Literal
 from torch_geometric.nn import MessagePassing
 from torch_geometric.utils import scatter, softmax
 
 from src.hparams import FullArguments
-from src.models.registry import ModelRegistry
 from src.models.base import BaseBackbone
 from src.models.mlp import MLP
+from src.models.registry import ModelRegistry
 
 
 class AllSetConv(MessagePassing):
@@ -82,7 +83,7 @@ class AllSetConv(MessagePassing):
         self,
         x: torch.Tensor,
         edge_index: torch.Tensor,
-        norm: torch.Tensor | None = None,
+        norm: Optional[torch.Tensor] = None,
         aggr: str = "add",
         *args,
         **kwargs,
@@ -112,9 +113,9 @@ class AllSetConv(MessagePassing):
     def message(
         self,
         x_j: torch.Tensor,
-        alpha_j: torch.Tensor | None = None,
-        norm: torch.Tensor | None = None,
-        index: torch.Tensor | None = None,
+        alpha_j: Optional[torch.Tensor] = None,
+        norm: Optional[torch.Tensor] = None,
+        index: Optional[torch.Tensor] = None,
     ) -> torch.Tensor:
         msg = x_j
 
@@ -135,8 +136,8 @@ class AllSetConv(MessagePassing):
         self,
         inputs: torch.Tensor,
         index: torch.Tensor,
-        ptr: torch.Tensor | None = None,
-        dim_size: int | None = None,
+        ptr: Optional[torch.Tensor] = None,
+        dim_size: Optional[int] = None,
     ) -> torch.Tensor:
         return scatter(
             inputs, index, dim=self.node_dim, dim_size=dim_size, reduce=self._aggr
@@ -218,7 +219,7 @@ class AllSet(BaseBackbone):
         if self.learn_mask_weight is not None:
             nn.init.ones_(self.learn_mask_weight)
 
-    def forward(self, batch) -> dict:
+    def get_embedding(self, batch):
         x = batch.x
         num_nodes = x.size(0)
 
@@ -277,4 +278,4 @@ class AllSet(BaseBackbone):
                 x = F.relu(x)
                 x = F.dropout(x, p=self.dropout, training=self.training)
 
-        return {"embeddings": x}
+        return x
