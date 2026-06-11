@@ -1,11 +1,12 @@
 # OPBench: A Graph Benchmark to Combat the Opioid Crisis
 
+[![KDD 2026](https://img.shields.io/badge/KDD'26-Datasets%20%26%20Benchmarks-1f6feb.svg)](https://kdd2026.kdd.org/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![PyG](https://img.shields.io/badge/PyG-2.4+-3C2179.svg)](https://pytorch-geometric.readthedocs.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-OPBench is a comprehensive graph-based benchmark designed for research on combating the opioid crisis. It provides a unified framework for evaluating Graph Neural Networks (GNNs), Heterogeneous GNNs, and Hypergraph Neural Networks on drug-related detection and classification tasks.
+**[KDD'26]** OPBench is a comprehensive graph-based benchmark designed for research on combating the opioid crisis. It provides a unified framework for evaluating Graph Neural Networks (GNNs), Heterogeneous GNNs, and Hypergraph Neural Networks on drug-related detection and classification tasks.
 
 ## Datasets
 
@@ -42,7 +43,7 @@ We recommend using [uv](https://github.com/astral-sh/uv) for fast, reliable Pyth
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Tianyi-Billy-Ma/OPBench.git
 cd OPBench
 
 # Create and sync environment with uv
@@ -80,10 +81,10 @@ Train a model on a specific dataset:
 
 ```bash
 # Using a config file
-PYTHONDONTWRITEBYTECODE=1 uv run python -m src.main run ./configs/run/pdmp.yaml
+uv run python -m src.main run ./configs/run/pdmp.yaml
 
 # With command-line overrides
-PYTHONDONTWRITEBYTECODE=1 uv run python -m src.main run ./configs/run/pdmp.yaml \
+uv run python -m src.main run ./configs/run/pdmp.yaml \
     --lr 0.001 \
     --hidden_dim 256 \
     --epochs 100
@@ -94,7 +95,7 @@ PYTHONDONTWRITEBYTECODE=1 uv run python -m src.main run ./configs/run/pdmp.yaml 
 Run multiple trials with different seeds:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 uv run python -m src.main exp ./configs/run/pdmp.yaml \
+uv run python -m src.main exp ./configs/run/pdmp.yaml \
     --num_runs 5
 ```
 
@@ -103,7 +104,7 @@ PYTHONDONTWRITEBYTECODE=1 uv run python -m src.main exp ./configs/run/pdmp.yaml 
 Perform hyperparameter optimization:
 
 ```bash
-PYTHONDONTWRITEBYTECODE=1 uv run python -m src.main sweep ./configs/sweep/pdmp_models.yaml
+uv run python -m src.main sweep ./configs/sweep/pdmp_models.yaml
 ```
 
 ## Supported Models
@@ -188,18 +189,27 @@ OPBench/
 
 ## Output Structure
 
-Results are saved in `./outputs/<run_name>/`:
+A single run (`run` mode) saves results under `./outputs/<run_name>/`, where the
+default `<run_name>` is `run_<dataset>_<model>_<timestamp>`:
 
 ```
 outputs/<run_name>/
-├── config/            # Saved configuration
-├── pretrain/          # Pretrain checkpoints (if applicable)
-├── finetune/          # Finetune checkpoints
-├── eval/              # Evaluation results
+├── config/                 # Saved configuration (one YAML per section)
+│   ├── data_config.yaml
+│   ├── model_config.yaml
+│   ├── train_config.yaml
+│   └── log_config.yaml
+├── finetune/               # Best finetune checkpoint (.ckpt)
+├── eval/                   # Evaluation results
 │   ├── run_results.json
 │   └── run_results.md
-└── logs/              # Training logs
+├── pretrain/               # Pretrain checkpoints (only used in `gen` mode)
+└── logs/                   # Logger output (only when --report_to lit/wandb)
 ```
+
+`exp` mode wraps this with per-seed subdirectories (`run_0/`, `run_1/`, ...) plus
+aggregated `exp_results.{json,md}`; `sweep` mode adds per-trial directories, a
+`best/` directory, and `sweep_results.{json,md}`.
 
 ## License
 
@@ -208,3 +218,16 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 This benchmark builds upon research in graph neural networks and their applications to public health challenges. We thank the open-source community for their contributions to PyTorch Geometric and related libraries.
+
+## Citation
+
+If you find OPBench useful in your research, please cite our paper:
+
+```bibtex
+@inproceedings{ma2026opbench,
+  title     = {OPBench: A Graph Benchmark to Combat the Opioid Crisis},
+  author    = {Ma, Tianyi and others},
+  booktitle = {Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '26), Datasets and Benchmarks Track},
+  year      = {2026}
+}
+```

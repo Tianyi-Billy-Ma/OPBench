@@ -37,10 +37,12 @@ class LogConfig(BaseConfig):
     )
 
     report_to: str | list[str] = field(
-        default="lit",
+        default="none",
         metadata={
-            "help": "Logger(s) to use. Options: lit, wandb. "
-            "Can be comma-separated string or list."
+            "help": "Logger(s) to use. Options: none, lit, wandb. "
+            "Can be comma-separated string or list. Default 'none' saves metrics "
+            "to eval/*.json without an external logger; 'lit' re-launches the "
+            "script under litlogger, so opt in explicitly when you want it."
         },
     )
 
