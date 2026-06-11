@@ -215,3 +215,6 @@ outputs/
 datasets/raw/
 # PyG InMemoryDataset processed caches (regenerable)
 datasets/**/processed/
+# uv lock pins a CUDA-specific torch build that is not portable across drivers;
+# let users resolve torch for their own CUDA (see README install note)
+uv.lock

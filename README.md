@@ -52,6 +52,19 @@ uv sync
 pip install -e .
 ```
 
+> **PyTorch / CUDA note.** `uv sync` / `pip` install the default PyTorch wheel,
+> which targets a recent CUDA build that may be newer than your GPU driver
+> supports. If you hit `RuntimeError: The NVIDIA driver on your system is too
+> old`, install a PyTorch build matching your driver's CUDA version, e.g. for
+> CUDA 12.4:
+>
+> ```bash
+> uv pip install --reinstall "torch==2.6.0" --index-url https://download.pytorch.org/whl/cu124
+> ```
+>
+> Check your driver's CUDA version with `nvidia-smi`. CPU-only runs work too
+> (the default `device: auto` falls back to CPU).
+
 ### Requirements
 
 - Python >= 3.11
