@@ -226,7 +226,7 @@ If you find OPBench useful in your research, please cite our paper:
 ```bibtex
 @inproceedings{ma2026opbench,
   title     = {OPBench: A Graph Benchmark to Combat the Opioid Crisis},
-  author    = {Ma, Tianyi and others},
+  author    = {Ma, Tianyi and Li, Yiyang and Qian, Yiyue and Huang, Jiatan and Zhang, Zheyuan and Wang, Zehong and Zhang, Chuxu and Ye, Yanfang},
   booktitle = {Proceedings of the 32nd ACM SIGKDD Conference on Knowledge Discovery and Data Mining (KDD '26), Datasets and Benchmarks Track},
   year      = {2026}
 }
