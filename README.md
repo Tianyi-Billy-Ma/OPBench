@@ -1,12 +1,13 @@
 # OPBench: A Graph Benchmark to Combat the Opioid Crisis
 
-[![KDD 2026](https://img.shields.io/badge/KDD'26-Datasets%20%26%20Benchmarks-1f6feb.svg)](https://kdd2026.kdd.org/)
+[![KDD 2026](https://img.shields.io/badge/KDD-2026-1f6feb.svg)](https://kdd2026.kdd.org/)
+[![Oral](https://img.shields.io/badge/Presentation-Oral-e36209.svg)](https://kdd2026.kdd.org/)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org/)
 [![PyG](https://img.shields.io/badge/PyG-2.4+-3C2179.svg)](https://pytorch-geometric.readthedocs.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-**[KDD'26]** OPBench is a comprehensive graph-based benchmark designed for research on combating the opioid crisis. It provides a unified framework for evaluating Graph Neural Networks (GNNs), Heterogeneous GNNs, and Hypergraph Neural Networks on drug-related detection and classification tasks.
+**[KDD'26 Oral]** OPBench is a comprehensive graph-based benchmark designed for research on combating the opioid crisis. It provides a unified framework for evaluating Graph Neural Networks (GNNs), Heterogeneous GNNs, and Hypergraph Neural Networks on drug-related detection and classification tasks.
 
 ## Datasets
 
